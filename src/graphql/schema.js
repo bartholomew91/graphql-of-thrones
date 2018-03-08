@@ -9,6 +9,7 @@ const {
     GraphQLList,
 } = GraphQL;
 const db = require('../config/dbconnection').get(); // grab the db instance
+const _ = require('lodash');
 
 // import types
 const CharacterType = require('./types/Character');
@@ -33,14 +34,21 @@ const RootQuery = new GraphQLObjectType({
                 }
             },
             resolve: (parent, args, context, info) => { // ugly. lets try and refactor later
+                
                 let query = "SELECT * FROM characters";
 
                 if(args.id != undefined) {
-                    query = `SELECT * FROM characters WHERE id = '${args.id}'`;
+                    query = {
+                        text: "SELECT * FROM characters WHERE id = $1",
+                        values: [args.id],
+                    };
                 }
                 
                 if(args.name != undefined) {
-                    query = `SELECT * FROM characters WHERE name LIKE '%${args.name}%'`;
+                    query = {
+                        text: "SELECT * FROM characters WHERE name LIKE $1",
+                        values: [`%${_.startCase(args.name)}%`], // postgres is case sensitive. convert to Start Case
+                    }
                 }
 
                 return db.query(query)
