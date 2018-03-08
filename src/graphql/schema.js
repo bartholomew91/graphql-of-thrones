@@ -2,7 +2,7 @@
 
 const GraphQL = require('graphql');
 const {
-	GraphQLObjectType,
+    GraphQLObjectType,
     GraphQLSchema,
     GraphQLString,
     GraphQLID,
@@ -16,23 +16,23 @@ const CharacterType = require('./types/Character');
 
 // define the root query
 const RootQuery = new GraphQLObjectType({
-	name: 'RootQueryType',
-	description: 'This is the default root query',
-	fields: {
-		characters: {
+    name: 'RootQueryType',
+    description: 'This is the default root query',
+    fields: {
+        characters: {
             type: new GraphQLList(CharacterType),
-			description: 'Returns all characters.',
-			args: {
-				id: {
-					type: GraphQLID,
-					description: 'ID of a character',
+            description: 'Returns all characters.',
+            args: {
+                id: {
+                    type: GraphQLID,
+                    description: 'ID of a character',
                 },
                 name: {
                     type: GraphQLString,
                     description: 'Name of character'
                 }
-			},
-			resolve: (parent, args, context, info) => { // ugly. lets try and refactor later
+            },
+            resolve: (parent, args, context, info) => { // ugly. lets try and refactor later
                 let query = "SELECT * FROM characters";
 
                 if(args.id != undefined) {
@@ -47,9 +47,9 @@ const RootQuery = new GraphQLObjectType({
                     .then( response => {
                         return response.rows;
                     });
-			}
+            }
         },
-	},
+    },
 });
 
 

@@ -2,9 +2,9 @@
 
 const GraphQL = require('graphql');
 const {
-	GraphQLObjectType,
-	GraphQLString,
-	GraphQLID,
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLID,
     GraphQLList,
     GraphQLBoolean
 } = GraphQL;
@@ -14,26 +14,26 @@ const jsonUtils = require('../../utils/json');
 const TitleType = require('./Title');
 
 const CharacterType = new GraphQL.GraphQLObjectType({
-	name: 'Character',
-	description: 'Character Type for all GoT characters.',
+    name: 'Character',
+    description: 'Character Type for all GoT characters.',
 
-	fields: () => ({
-		id: {
-			type: GraphQLID,
-			description: 'ID of the character',
-		},
-		name: {
-			type: GraphQLString,
-			description: 'Name of the character',
-		},
-		description: {
-			type: GraphQLString,
-			description: 'Description of the character',
-		},
+    fields: () => ({
+        id: {
+            type: GraphQLID,
+            description: 'ID of the character',
+        },
+        name: {
+            type: GraphQLString,
+            description: 'Name of the character',
+        },
+        description: {
+            type: GraphQLString,
+            description: 'Description of the character',
+        },
         titles: {
             type: new GraphQLList(TitleType),
-			description: 'Titles held by characters',
-			resolve: character => { // refactor needed
+            description: 'Titles held by characters',
+            resolve: character => { // refactor needed
                 if(character.titles != '') {
                     const query = `SELECT * FROM titles WHERE id IN ('${jsonUtils.toCommaDelim(character.titles, val => val.id)}')`;
                     return db.query(query)
@@ -42,7 +42,7 @@ const CharacterType = new GraphQL.GraphQLObjectType({
                         });
                 }
                 return null;
-			}
+            }
         },
         alive: {
             type: GraphQLBoolean,
@@ -62,7 +62,7 @@ const CharacterType = new GraphQL.GraphQLObjectType({
                 return null;
             }
         }
-	})
+    })
 });
 
 
