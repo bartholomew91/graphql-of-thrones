@@ -1,6 +1,6 @@
 // refactor resolver functions at a later point
-const db = require('../config/dbconnection').get(); // grab the db instance
-const _ = require('lodash');
+const db = require('../config/dbconnection').get() // grab the db instance
+const _ = require('lodash')
 
 const character = (character, data) => {
     if(character[data].length > 0) {
@@ -8,9 +8,9 @@ const character = (character, data) => {
             text: 'SELECT * FROM characters WHERE id IN($1)',
             values: ['{' + Object.values(character[data][0]).join(',') + '}']
         }
-        return db.query(query).then( res => { return res.rows });
+        return db.query(query).then( res => { return res.rows })
     }
-    return null;
+    return null
 };
 
 const title = titles => {
@@ -19,9 +19,9 @@ const title = titles => {
             text: 'SELECT * FROM titles WHERE id IN($1)',
             values: ['{' + Object.values(titles[0]).join(',') + '}']
         }
-        return db.query(query).then( res => { return res.rows });
+        return db.query(query).then( res => { return res.rows })
     }
-    return null;
+    return null
 }
 
 const allegiance = houses => {
@@ -32,7 +32,17 @@ const allegiance = houses => {
         }
         return db.query(query).then( res => { return res.rows })
     }
-    return null;
+    return null
 }
 
-module.exports = { character, title, allegiance };
+const religion = religions => {
+    if(religions.length > 0) {
+        const query = {
+            text: 'SELECT * FROM religions WHERE id IN($1)',
+            values: ['{' + Object.values(religion[0]).join(',') + '}']
+        }
+        return db.query(query).then( res => { return res.rows })
+    }
+}
+
+module.exports = { character, title, allegiance, religion }

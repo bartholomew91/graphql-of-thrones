@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const GraphQL = require('graphql');
+const GraphQL = require('graphql')
 const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
     GraphQLList
-} = GraphQL;
+} = GraphQL
 
-const TitleType = require('./Title');
+const TitleType = require('./Title')
 
 
 const HouseType = new GraphQL.GraphQLObjectType({
@@ -37,7 +37,7 @@ const HouseType = new GraphQL.GraphQLObjectType({
             description: 'The Houses motto'
         }
     })
-});
+})
 
 
-module.exports = HouseType;
+module.exports = HouseType

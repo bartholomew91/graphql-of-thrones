@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const GraphQL = require('graphql');
+const GraphQL = require('graphql')
 const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
-} = GraphQL;
+} = GraphQL
 
 
 const TitleType = new GraphQL.GraphQLObjectType({
@@ -30,7 +30,7 @@ const TitleType = new GraphQL.GraphQLObjectType({
             description: 'The history of the title',
         }
     })
-});
+})
 
 
-module.exports = TitleType;
+module.exports = TitleType

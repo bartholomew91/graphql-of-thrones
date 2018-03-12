@@ -1,18 +1,19 @@
-'use strict';
+'use strict'
 
-const GraphQL = require('graphql');
+const GraphQL = require('graphql')
 const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
     GraphQLList,
     GraphQLBoolean
-} = GraphQL;
-const db = require('../../config/dbconnection').get(); // grab the db instance
+} = GraphQL
+const db = require('../../config/dbconnection').get() // grab the db instance
 
-const TitleType = require('./Title');
-const HouseType = require('./House');
-const resolvers = require('../resolver');
+const TitleType = require('./Title')
+const HouseType = require('./House')
+const ReligionType = require('./Religion')
+const resolvers = require('../resolver')
 
 const CharacterType = new GraphQL.GraphQLObjectType({
     name: 'Character',
@@ -64,8 +65,13 @@ const CharacterType = new GraphQL.GraphQLObjectType({
             description: 'Father of the character',
             resolve: char => resolvers.character(char, "father")
         },
+        religion: {
+            type: new GraphQLList(ReligionType),
+            description: 'Religion of the character',
+            resolve: char => resolvers.religion(char.religion)
+        }
     })
-});
+})
 
 
-module.exports = CharacterType;
+module.exports = CharacterType

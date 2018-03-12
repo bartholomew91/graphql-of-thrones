@@ -26,7 +26,7 @@ const character = (character, data) => {
 const title = titles => {
     if (titles.length > 0) {
         const query = {
-            text: 'SELECT * FROM titles WHERE id IN($1)', // still ugly :\
+            text: 'SELECT * FROM titles WHERE id IN($1)',
             values: ['{' + (0, _values2.default)(titles[0]).join(',') + '}']
         };
         return db.query(query).then(res => {
@@ -39,7 +39,7 @@ const title = titles => {
 const allegiance = houses => {
     if (houses.length > 0) {
         const query = {
-            text: 'SELECT * FROM houses WHERE id IN($1)', // still ugly :\
+            text: 'SELECT * FROM houses WHERE id IN($1)',
             values: ['{' + (0, _values2.default)(houses[0]).join(',') + '}']
         };
         return db.query(query).then(res => {
@@ -49,4 +49,16 @@ const allegiance = houses => {
     return null;
 };
 
-module.exports = { character, title, allegiance };
+const religion = religions => {
+    if (religions.length > 0) {
+        const query = {
+            text: 'SELECT * FROM religions WHERE id IN($1)',
+            values: ['{' + (0, _values2.default)(religion[0]).join(',') + '}']
+        };
+        return db.query(query).then(res => {
+            return res.rows;
+        });
+    }
+};
+
+module.exports = { character, title, allegiance, religion };

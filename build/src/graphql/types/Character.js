@@ -12,6 +12,7 @@ const db = require('../../config/dbconnection').get(); // grab the db instance
 
 const TitleType = require('./Title');
 const HouseType = require('./House');
+const ReligionType = require('./Religion');
 const resolvers = require('../resolver');
 
 const CharacterType = new GraphQL.GraphQLObjectType({
@@ -63,6 +64,11 @@ const CharacterType = new GraphQL.GraphQLObjectType({
             type: new GraphQLList(CharacterType),
             description: 'Father of the character',
             resolve: char => resolvers.character(char, "father")
+        },
+        religion: {
+            type: new GraphQLList(ReligionType),
+            description: 'Religion of the character',
+            resolve: char => resolvers.religion(char.religion)
         }
     })
 });

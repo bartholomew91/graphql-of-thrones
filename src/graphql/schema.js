@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const GraphQL = require('graphql');
+const GraphQL = require('graphql')
 const {
     GraphQLObjectType,
     GraphQLSchema,
@@ -8,11 +8,11 @@ const {
     GraphQLID,
     GraphQLList,
 } = GraphQL;
-const db = require('../config/dbconnection').get(); // grab the db instance
-const _ = require('lodash');
+const db = require('../config/dbconnection').get() // grab the db instance
+const _ = require('lodash')
 
 // import types
-const CharacterType = require('./types/Character');
+const CharacterType = require('./types/Character')
 
 
 // define the root query
@@ -35,13 +35,13 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve: (parent, args, context, info) => { // ugly. lets try and refactor later
 
-                let query = "SELECT * FROM characters";
+                let query = "SELECT * FROM characters"
 
                 if(args.id != undefined) {
                     query = {
                         text: "SELECT * FROM characters WHERE id = $1",
                         values: [args.id],
-                    };
+                    }
                 }
                 
                 if(args.name != undefined) {
@@ -51,7 +51,7 @@ const RootQuery = new GraphQLObjectType({
                     }
                 }
 
-                return db.query(query).then( res => { return res.rows; });
+                return db.query(query).then( res => { return res.rows; })
             }
         },
     },
@@ -61,4 +61,4 @@ const RootQuery = new GraphQLObjectType({
 // export schema
 module.exports = new GraphQLSchema({
 	query: RootQuery,
-});
+})
