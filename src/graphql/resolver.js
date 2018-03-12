@@ -5,7 +5,8 @@ const _ = require('lodash');
 const character = (character, data) => {
     if(character[data].length > 0) {
         const query = {
-            text: `SELECT * FROM characters WHERE id IN('${_.map(character[data], 'id').join('","')}')`, // still ugly :\
+            text: 'SELECT * FROM characters WHERE id IN($1)',
+            values: ['{' + Object.values(character[data][0]).join(',') + '}']
         }
         return db.query(query).then( res => { return res.rows });
     }
@@ -15,7 +16,8 @@ const character = (character, data) => {
 const title = titles => {
     if(titles.length > 0) {
         const query = {
-            text: `SELECT * FROM titles WHERE id IN('${_.map(titles, 'id').join("','")}')`, // still ugly :\
+            text: 'SELECT * FROM titles WHERE id IN($1)',
+            values: ['{' + Object.values(titles[0]).join(',') + '}']
         }
         return db.query(query).then( res => { return res.rows });
     }
@@ -25,11 +27,12 @@ const title = titles => {
 const allegiance = houses => {
     if(houses.length > 0) {
         const query = {
-            text: `SELECT * FROM houses WHERE id IN('${_.map(houses, 'id').join("','")}')`, // still ugly :\
+            text: 'SELECT * FROM houses WHERE id IN($1)',
+            values: ['{' + Object.values(houses[0]).join(',') + '}']
         }
         return db.query(query).then( res => { return res.rows })
     }
     return null;
 }
 
-module.exports = { character };
+module.exports = { character, title, allegiance };

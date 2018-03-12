@@ -6,14 +6,13 @@ const {
     GraphQLSchema,
     GraphQLString,
     GraphQLID,
-    GraphQLList,
+    GraphQLList
 } = GraphQL;
 const db = require('../config/dbconnection').get(); // grab the db instance
 const _ = require('lodash');
 
 // import types
 const CharacterType = require('./types/Character');
-
 
 // define the root query
 const RootQuery = new GraphQLObjectType({
@@ -26,39 +25,41 @@ const RootQuery = new GraphQLObjectType({
             args: {
                 id: {
                     type: GraphQLID,
-                    description: 'ID of a character',
+                    description: 'ID of a character'
                 },
                 name: {
                     type: GraphQLString,
                     description: 'Name of character'
                 }
             },
-            resolve: (parent, args, context, info) => { // ugly. lets try and refactor later
+            resolve: (parent, args, context, info) => {
+                // ugly. lets try and refactor later
 
                 let query = "SELECT * FROM characters";
 
-                if(args.id != undefined) {
+                if (args.id != undefined) {
                     query = {
                         text: "SELECT * FROM characters WHERE id = $1",
-                        values: [args.id],
+                        values: [args.id]
                     };
                 }
-                
-                if(args.name != undefined) {
+
+                if (args.name != undefined) {
                     query = {
                         text: "SELECT * FROM characters WHERE name LIKE $1",
-                        values: [`%${_.startCase(args.name)}%`], // postgres is case sensitive. convert to Start Case
-                    }
+                        values: [`%${_.startCase(args.name)}%`] // postgres is case sensitive. convert to Start Case
+                    };
                 }
 
-                return db.query(query).then( res => { return res.rows; });
+                return db.query(query).then(res => {
+                    return res.rows;
+                });
             }
-        },
-    },
+        }
+    }
 });
-
 
 // export schema
 module.exports = new GraphQLSchema({
-	query: RootQuery,
+    query: RootQuery
 });
